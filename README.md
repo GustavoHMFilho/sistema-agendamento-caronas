@@ -30,6 +30,8 @@ Entidades principais:
 - `Reserva`: solicitacao ou confirmacao de vaga por passageiro.
 - `Avaliacao`: nota e comentario vinculados a uma reserva.
 
+O diagrama entidade-relacionamento esta em [MODELAGEM_ER.md](MODELAGEM_ER.md).
+
 ## Como executar
 
 ```bash
