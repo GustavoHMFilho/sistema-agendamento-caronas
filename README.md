@@ -50,9 +50,8 @@ Esta entrega é focada na modelagem completa do sistema e na configuração do a
 
 O diagrama entidade-relacionamento está disponível em:
 
-```text
-MODELAGEM_ER.md
-```
+[MODELAGEM_ER.md](MODELAGEM_ER.md).
+
 
 ---
 
