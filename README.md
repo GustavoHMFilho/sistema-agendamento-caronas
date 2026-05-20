@@ -1,46 +1,163 @@
 # Sistema de Agendamento de Caronas
 
-Projeto Django para a disciplina GAC116 - Programacao Web.
+Projeto desenvolvido com Django para a disciplina **GAC116 - Programação Web**.
 
-## Tema
+## Sobre o Projeto
 
-O sistema permite cadastrar usuarios, veiculos, locais, caronas ofertadas, reservas de passageiros e avaliacoes das viagens.
+O sistema permite o gerenciamento de caronas entre usuários, possibilitando:
+
+- Cadastro de usuários e perfis
+- Cadastro de veículos
+- Cadastro de locais de origem e destino
+- Oferta de caronas
+- Reserva de vagas por passageiros
+- Avaliação das viagens realizadas
+
+---
 
 ## Checkpoint 1
 
-Entrega focada em modelagem completa e ambiente administrativo.
+Esta entrega é focada na modelagem completa do sistema e na configuração do ambiente administrativo do Django.
 
-Recursos configurados no admin:
+### Funcionalidades implementadas no Django Admin
 
-- Jazzmin para substituir o template padrao do Django Admin.
-- `list_display` para exibir os principais campos das entidades.
-- `list_filter` para filtrar caronas, reservas, usuarios, locais e avaliacoes.
-- `search_fields` para localizar registros por usuario, rota, placa e local.
-- `inlines` para cadastrar veiculos dentro do perfil, reservas dentro da carona e avaliacao dentro da reserva.
-- Validacoes com `clean` nos modelos, como impedimento de carona no passado, origem igual ao destino, motorista reservando a propria carona e reserva acima do limite de vagas.
+- Integração com **Jazzmin** para personalização visual do Django Admin
+- Uso de `list_display` para exibição dos principais campos das entidades
+- Uso de `list_filter` para filtros rápidos de registros
+- Uso de `search_fields` para busca de usuários, rotas, placas e locais
+- Uso de `inlines` para facilitar o cadastro relacionado:
+  - veículos dentro do perfil do usuário
+  - reservas dentro da carona
+  - avaliações dentro da reserva
+- Validações utilizando `clean()` nos modelos, incluindo:
+  - impedimento de cadastro de caronas no passado
+  - validação de origem e destino diferentes
+  - bloqueio do motorista reservar a própria carona
+  - controle de limite máximo de vagas
+
+---
 
 ## Modelagem
 
-Entidades principais:
+### Entidades principais
 
-- `PerfilUsuario`: dados complementares do usuario autenticavel.
-- `Veiculo`: veiculos vinculados a motoristas.
-- `Local`: pontos de origem e destino.
-- `Carona`: oferta de viagem com motorista, veiculo, rota, horario, valor e vagas.
-- `Reserva`: solicitacao ou confirmacao de vaga por passageiro.
-- `Avaliacao`: nota e comentario vinculados a uma reserva.
+- `PerfilUsuario` → dados complementares do usuário autenticável
+- `Veiculo` → veículos vinculados aos motoristas
+- `Local` → pontos de origem e destino
+- `Carona` → oferta de viagem contendo motorista, veículo, rota, horário, valor e vagas
+- `Reserva` → solicitação/confirmação de vaga por passageiros
+- `Avaliacao` → nota e comentário associados à reserva
 
-O diagrama entidade-relacionamento esta em [MODELAGEM_ER.md](MODELAGEM_ER.md).
+O diagrama entidade-relacionamento está disponível em:
 
-## Como executar
+```text
+MODELAGEM_ER.md
+```
+
+---
+
+## Tecnologias Utilizadas
+
+- Python
+- Django
+- SQLite
+- Jazzmin
+
+---
+
+## Como Executar o Projeto
+
+### 1. Clonar o repositório
+
+```bash
+git clone https://github.com/GustavoHMFilho/sistema-agendamento-caronas
+```
+
+### 2. Entrar na pasta do projeto
+
+```bash
+cd nome-do-projeto
+```
+
+### 3. Criar o ambiente virtual
+
+#### Windows
 
 ```bash
 python -m venv .venv
+```
+
+#### Linux/macOS
+
+```bash
+python3 -m venv .venv
+```
+
+---
+
+### 4. Ativar o ambiente virtual
+
+#### Windows
+
+```bash
 .venv\Scripts\activate
+```
+
+#### Linux/macOS
+
+```bash
+source .venv/bin/activate
+```
+
+---
+
+### 5. Instalar as dependências
+
+```bash
 pip install -r requirements.txt
+```
+
+---
+
+### 6. Executar as migrações
+
+```bash
 python manage.py migrate
+```
+
+---
+
+### 7. Criar um superusuário
+
+```bash
 python manage.py createsuperuser
+```
+
+---
+
+### 8. Iniciar o servidor
+
+```bash
 python manage.py runserver
 ```
 
-Depois acesse `http://127.0.0.1:8000/admin/`.
+---
+
+## Acesso ao Sistema
+
+Após iniciar o servidor, acesse:
+
+```text
+http://127.0.0.1:8000/admin/
+```
+
+---
+
+## Estrutura Geral do Sistema
+
+O sistema foi desenvolvido seguindo a arquitetura padrão do Django, utilizando:
+
+- Models para persistência dos dados
+- Django Admin para gerenciamento administrativo
+- Relacionamentos entre entidades com `ForeignKey` e `OneToOneField`
+- Validações de negócio diretamente nos modelos
