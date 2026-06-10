@@ -1,0 +1,32 @@
+{% extends 'agendamentos/base.html' %}
+
+{% block title %}Meus veiculos - Caronas UFLA{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="h3 mb-1">Meus veiculos</h1>
+        <p class="text-secondary mb-0">Veiculos usados para oferecer caronas.</p>
+    </div>
+    <a class="btn btn-primary" href="{% url 'criar_veiculo' %}">Cadastrar veiculo</a>
+</div>
+
+<div class="row g-3">
+    {% for veiculo in veiculos %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h2 class="h5">{{ veiculo.modelo }}</h2>
+                    <p class="mb-1"><strong>Placa:</strong> {{ veiculo.placa }}</p>
+                    <p class="mb-1"><strong>Cor:</strong> {{ veiculo.cor }}</p>
+                    <p class="mb-0"><strong>Capacidade:</strong> {{ veiculo.capacidade }}</p>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="col">
+            <div class="alert alert-light border">Nenhum veiculo cadastrado.</div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

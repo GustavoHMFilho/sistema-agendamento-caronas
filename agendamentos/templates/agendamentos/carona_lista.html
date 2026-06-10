@@ -1,0 +1,28 @@
+{% extends 'agendamentos/base.html' %}
+
+{% block title %}Caronas disponiveis - Caronas UFLA{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+    <div>
+        <h1 class="h3 mb-1">Caronas disponiveis</h1>
+        <p class="text-secondary mb-0">Busque por local, cidade ou motorista.</p>
+    </div>
+    <a class="btn btn-primary" href="{% url 'criar_carona' %}">Oferecer carona</a>
+</div>
+
+<form class="row g-2 mb-4" method="get">
+    <div class="col-md-10">
+        <input class="form-control" type="search" name="q" value="{{ termo }}" placeholder="Ex.: UFLA, Centro, Lavras">
+    </div>
+    <div class="col-md-2 d-grid">
+        <button class="btn btn-outline-primary" type="submit">Buscar</button>
+    </div>
+</form>
+
+{% for carona in caronas %}
+    {% include 'agendamentos/partials/carona_card.html' %}
+{% empty %}
+    <div class="alert alert-light border">Nenhuma carona encontrada.</div>
+{% endfor %}
+{% endblock %}

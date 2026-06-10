@@ -1,0 +1,45 @@
+{% extends 'agendamentos/base.html' %}
+
+{% block title %}Minhas caronas - Caronas UFLA{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="h3 mb-1">Minhas caronas</h1>
+        <p class="text-secondary mb-0">Acompanhe as viagens que voce ofereceu.</p>
+    </div>
+    <a class="btn btn-primary" href="{% url 'criar_carona' %}">Nova carona</a>
+</div>
+
+<div class="table-responsive shadow-sm rounded">
+    <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
+            <tr>
+                <th>Rota</th>
+                <th>Saida</th>
+                <th>Vagas</th>
+                <th>Status</th>
+                <th class="text-end">Acoes</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for carona in caronas %}
+                <tr>
+                    <td>{{ carona.origem }} para {{ carona.destino }}</td>
+                    <td>{{ carona.data_hora_saida|date:'d/m/Y H:i' }}</td>
+                    <td>{{ carona.vagas_restantes }}/{{ carona.vagas_disponiveis }}</td>
+                    <td><span class="badge text-bg-secondary">{{ carona.get_status_display }}</span></td>
+                    <td class="text-end">
+                        <a class="btn btn-sm btn-outline-primary" href="{% url 'detalhe_carona' carona.pk %}">Ver</a>
+                        {% if carona.status == 'AGENDADA' %}
+                            <a class="btn btn-sm btn-outline-danger" href="{% url 'cancelar_carona' carona.pk %}">Cancelar</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="5" class="text-secondary">Voce ainda nao ofereceu caronas.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

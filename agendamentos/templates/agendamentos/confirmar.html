@@ -1,0 +1,22 @@
+{% extends 'agendamentos/base.html' %}
+
+{% block title %}Confirmar acao - Caronas UFLA{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-7">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <h1 class="h4">Confirmar acao</h1>
+                <p>Deseja realmente {{ acao }}?</p>
+                <p class="text-secondary">{{ objeto }}</p>
+                <form method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-danger" type="submit">Confirmar</button>
+                    <a class="btn btn-outline-secondary" href="{% url 'dashboard' %}">Voltar</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

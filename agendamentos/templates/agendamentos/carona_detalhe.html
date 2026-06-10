@@ -1,0 +1,52 @@
+{% extends 'agendamentos/base.html' %}
+
+{% block title %}Detalhes da carona - Caronas UFLA{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+                    <div>
+                        <h1 class="h3 mb-1">{{ carona.origem }} para {{ carona.destino }}</h1>
+                        <p class="text-secondary mb-0">{{ carona.data_hora_saida|date:'d/m/Y H:i' }}</p>
+                    </div>
+                    <span class="badge text-bg-primary">{{ carona.get_status_display }}</span>
+                </div>
+                <dl class="row mb-0">
+                    <dt class="col-sm-4">Motorista</dt>
+                    <dd class="col-sm-8">{{ carona.motorista }}</dd>
+                    <dt class="col-sm-4">Veiculo</dt>
+                    <dd class="col-sm-8">{{ carona.veiculo }}</dd>
+                    <dt class="col-sm-4">Vagas restantes</dt>
+                    <dd class="col-sm-8">{{ carona.vagas_restantes }}</dd>
+                    <dt class="col-sm-4">Valor por vaga</dt>
+                    <dd class="col-sm-8">R$ {{ carona.valor_por_vaga }}</dd>
+                    <dt class="col-sm-4">Observacoes</dt>
+                    <dd class="col-sm-8">{{ carona.observacoes|default:'Sem observacoes.' }}</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="h5">Reserva</h2>
+                {% if carona.motorista_id == perfil.id %}
+                    <p class="text-secondary">Esta carona foi cadastrada por voce.</p>
+                    <a class="btn btn-outline-secondary w-100" href="{% url 'minhas_caronas' %}">Minhas caronas</a>
+                {% elif reserva %}
+                    <p class="text-secondary">Voce ja possui uma reserva nesta carona.</p>
+                    <a class="btn btn-outline-secondary w-100" href="{% url 'minhas_reservas' %}">Minhas reservas</a>
+                {% elif carona.vagas_restantes > 0 %}
+                    <p class="text-secondary">Ainda ha vagas disponiveis para esta viagem.</p>
+                    <a class="btn btn-primary w-100" href="{% url 'reservar_carona' carona.pk %}">Reservar vaga</a>
+                {% else %}
+                    <p class="text-secondary">Nao ha vagas restantes.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

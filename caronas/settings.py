@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-!#3ehul6tl#1(wk44)3f%u%lvlw#2!55*9*4*siaayc8rpujr$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'testserver']
 
 
 # Application definition
@@ -119,6 +119,10 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'dashboard'
+LOGOUT_REDIRECT_URL = 'login'
 
 JAZZMIN_SETTINGS = {
     'site_title': 'Admin Caronas',

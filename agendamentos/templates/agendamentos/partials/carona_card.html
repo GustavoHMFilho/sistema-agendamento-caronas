@@ -1,0 +1,20 @@
+<article class="card shadow-sm mb-3">
+    <div class="card-body">
+        <div class="d-flex flex-column flex-md-row justify-content-between gap-3">
+            <div>
+                <h3 class="h5 mb-1">{{ carona.origem }} para {{ carona.destino }}</h3>
+                <p class="text-secondary mb-2">
+                    {{ carona.data_hora_saida|date:'d/m/Y H:i' }} - Motorista: {{ carona.motorista }}
+                </p>
+                <div class="d-flex flex-wrap gap-2">
+                    <span class="badge text-bg-light border">{{ carona.veiculo }}</span>
+                    <span class="badge text-bg-success">{{ carona.vagas_restantes }} vaga(s)</span>
+                    <span class="badge text-bg-primary">R$ {{ carona.valor_por_vaga }}</span>
+                </div>
+            </div>
+            <div class="d-flex align-items-start">
+                <a class="btn btn-outline-primary" href="{% url 'detalhe_carona' carona.pk %}">Detalhes</a>
+            </div>
+        </div>
+    </div>
+</article>

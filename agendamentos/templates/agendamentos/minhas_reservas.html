@@ -1,0 +1,40 @@
+{% extends 'agendamentos/base.html' %}
+
+{% block title %}Minhas reservas - Caronas UFLA{% endblock %}
+
+{% block content %}
+<h1 class="h3 mb-4">Minhas reservas</h1>
+
+<div class="table-responsive shadow-sm rounded">
+    <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
+            <tr>
+                <th>Carona</th>
+                <th>Motorista</th>
+                <th>Saida</th>
+                <th>Status</th>
+                <th class="text-end">Acoes</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reserva in reservas %}
+                <tr>
+                    <td>{{ reserva.carona.origem }} para {{ reserva.carona.destino }}</td>
+                    <td>{{ reserva.carona.motorista }}</td>
+                    <td>{{ reserva.carona.data_hora_saida|date:'d/m/Y H:i' }}</td>
+                    <td><span class="badge text-bg-secondary">{{ reserva.get_status_display }}</span></td>
+                    <td class="text-end">
+                        <a class="btn btn-sm btn-outline-primary" href="{% url 'detalhe_carona' reserva.carona.pk %}">Ver</a>
+                        {% if reserva.status == 'CONFIRMADA' %}
+                            <a class="btn btn-sm btn-outline-success" href="{% url 'avaliar_reserva' reserva.pk %}">Avaliar</a>
+                            <a class="btn btn-sm btn-outline-danger" href="{% url 'cancelar_reserva' reserva.pk %}">Cancelar</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="5" class="text-secondary">Voce ainda nao possui reservas.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'agendamentos/base.html' %}
+
+{% block title %}Dashboard - Caronas UFLA{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+    <div>
+        <h1 class="h3 mb-1">Painel do usuario</h1>
+        <p class="text-secondary mb-0">Gerencie suas caronas, reservas e veiculos.</p>
+    </div>
+    <div class="d-flex gap-2">
+        <a class="btn btn-primary" href="{% url 'criar_carona' %}">Oferecer carona</a>
+        <a class="btn btn-outline-primary" href="{% url 'listar_caronas' %}">Buscar carona</a>
+    </div>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <span class="text-secondary small">Perfil</span>
+                <h2 class="h5 mt-1">{{ perfil.get_tipo_display }}</h2>
+                <p class="mb-3">{{ perfil.telefone|default:'Telefone nao informado' }}</p>
+                <a class="btn btn-sm btn-outline-secondary" href="{% url 'editar_perfil' %}">Editar perfil</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <span class="text-secondary small">Minhas caronas</span>
+                <h2 class="display-6">{{ minhas_caronas|length }}</h2>
+                <a class="btn btn-sm btn-outline-secondary" href="{% url 'minhas_caronas' %}">Ver caronas</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <span class="text-secondary small">Minhas reservas</span>
+                <h2 class="display-6">{{ minhas_reservas|length }}</h2>
+                <a class="btn btn-sm btn-outline-secondary" href="{% url 'minhas_reservas' %}">Ver reservas</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <section class="col-lg-7">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <h2 class="h5 mb-0">Proximas caronas disponiveis</h2>
+            <a class="small" href="{% url 'listar_caronas' %}">Ver todas</a>
+        </div>
+        {% for carona in proximas_caronas %}
+            {% include 'agendamentos/partials/carona_card.html' %}
+        {% empty %}
+            <div class="alert alert-light border">Nenhuma carona agendada no momento.</div>
+        {% endfor %}
+    </section>
+    <section class="col-lg-5">
+        <h2 class="h5 mb-2">Reservas recentes</h2>
+        <div class="list-group shadow-sm">
+            {% for reserva in minhas_reservas %}
+                <a class="list-group-item list-group-item-action" href="{% url 'detalhe_carona' reserva.carona.pk %}">
+                    <div class="fw-semibold">{{ reserva.carona.origem }} para {{ reserva.carona.destino }}</div>
+                    <div class="small text-secondary">{{ reserva.get_status_display }} - {{ reserva.carona.data_hora_saida|date:'d/m/Y H:i' }}</div>
+                </a>
+            {% empty %}
+                <div class="list-group-item text-secondary">Voce ainda nao possui reservas.</div>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+{% endblock %}
