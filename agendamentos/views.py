@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
-from django.db.models import Q
+from django.db.models import Prefetch, Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 
@@ -145,7 +145,12 @@ def criar_carona(request):
 @login_required
 def minhas_caronas(request):
     perfil = obter_perfil(request.user)
-    caronas = Carona.objects.filter(motorista=perfil).select_related('origem', 'destino', 'veiculo')
+    reservas = Reserva.objects.select_related('passageiro', 'passageiro__usuario').order_by('-criado_em')
+    caronas = (
+        Carona.objects.filter(motorista=perfil)
+        .select_related('origem', 'destino', 'veiculo')
+        .prefetch_related(Prefetch('reservas', queryset=reservas))
+    )
     return render(request, 'agendamentos/minhas_caronas.html', {'caronas': caronas})
 
 
@@ -174,14 +179,14 @@ def reservar_carona(request, pk):
             reserva = form.save(commit=False)
             reserva.carona = carona
             reserva.passageiro = perfil
-            reserva.status = Reserva.Status.CONFIRMADA
+            reserva.status = Reserva.Status.SOLICITADA
             try:
                 reserva.full_clean()
             except ValidationError as exc:
                 form.add_error(None, ' '.join(exc.messages))
             else:
                 reserva.save()
-                messages.success(request, 'Reserva confirmada.')
+                messages.success(request, 'Solicitacao enviada ao motorista.')
                 return redirect('minhas_reservas')
     else:
         form = ReservaForm()
@@ -218,6 +223,49 @@ def cancelar_reserva(request, pk):
         return redirect('minhas_reservas')
 
     return render(request, 'agendamentos/confirmar.html', {'objeto': reserva, 'acao': 'cancelar esta reserva'})
+
+
+@login_required
+def confirmar_reserva_motorista(request, pk):
+    perfil = obter_perfil(request.user)
+    reserva = get_object_or_404(Reserva, pk=pk, carona__motorista=perfil)
+
+    if request.method != 'POST':
+        return redirect('minhas_caronas')
+
+    if reserva.status != Reserva.Status.SOLICITADA:
+        messages.info(request, 'Esta reserva nao esta pendente de confirmacao.')
+        return redirect('minhas_caronas')
+
+    reserva.status = Reserva.Status.CONFIRMADA
+    try:
+        reserva.full_clean()
+    except ValidationError as exc:
+        messages.error(request, ' '.join(exc.messages))
+    else:
+        reserva.save(update_fields=['status'])
+        messages.success(request, f'Reserva de {reserva.passageiro} confirmada.')
+
+    return redirect('minhas_caronas')
+
+
+@login_required
+def recusar_reserva_motorista(request, pk):
+    perfil = obter_perfil(request.user)
+    reserva = get_object_or_404(Reserva, pk=pk, carona__motorista=perfil)
+
+    if request.method != 'POST':
+        return redirect('minhas_caronas')
+
+    if reserva.status == Reserva.Status.CANCELADA:
+        messages.info(request, 'Esta reserva ja esta cancelada.')
+        return redirect('minhas_caronas')
+
+    reserva.status = Reserva.Status.CANCELADA
+    reserva.save(update_fields=['status'])
+    messages.success(request, f'Reserva de {reserva.passageiro} recusada/cancelada.')
+
+    return redirect('minhas_caronas')
 
 
 @login_required

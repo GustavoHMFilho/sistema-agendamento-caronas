@@ -56,7 +56,7 @@ class AreaUsuarioTests(TestCase):
         self.assertContains(response, 'UFLA')
         self.assertContains(response, 'Centro')
 
-    def test_passageiro_reserva_carona(self):
+    def test_passageiro_solicita_reserva_carona(self):
         self.client.login(username='passageiro', password='teste123')
 
         response = self.client.post(reverse('reservar_carona', args=[self.carona.pk]), {'observacao': 'Saio da biblioteca.'})
@@ -66,6 +66,36 @@ class AreaUsuarioTests(TestCase):
             Reserva.objects.filter(
                 carona=self.carona,
                 passageiro=self.passageiro,
-                status=Reserva.Status.CONFIRMADA,
+                status=Reserva.Status.SOLICITADA,
             ).exists()
         )
+
+    def test_motorista_visualiza_mensagem_do_passageiro(self):
+        Reserva.objects.create(
+            carona=self.carona,
+            passageiro=self.passageiro,
+            status=Reserva.Status.SOLICITADA,
+            observacao='Saio da biblioteca.',
+        )
+        self.client.login(username='motorista', password='teste123')
+
+        response = self.client.get(reverse('minhas_caronas'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'passageiro')
+        self.assertContains(response, 'Saio da biblioteca.')
+        self.assertContains(response, 'Confirmar')
+
+    def test_motorista_confirma_reserva(self):
+        reserva = Reserva.objects.create(
+            carona=self.carona,
+            passageiro=self.passageiro,
+            status=Reserva.Status.SOLICITADA,
+        )
+        self.client.login(username='motorista', password='teste123')
+
+        response = self.client.post(reverse('confirmar_reserva_motorista', args=[reserva.pk]))
+
+        self.assertRedirects(response, reverse('minhas_caronas'))
+        reserva.refresh_from_db()
+        self.assertEqual(reserva.status, Reserva.Status.CONFIRMADA)

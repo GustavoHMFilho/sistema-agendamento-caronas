@@ -28,6 +28,8 @@
                         {% if reserva.status == 'CONFIRMADA' %}
                             <a class="btn btn-sm btn-outline-success" href="{% url 'avaliar_reserva' reserva.pk %}">Avaliar</a>
                             <a class="btn btn-sm btn-outline-danger" href="{% url 'cancelar_reserva' reserva.pk %}">Cancelar</a>
+                        {% elif reserva.status == 'SOLICITADA' %}
+                            <a class="btn btn-sm btn-outline-danger" href="{% url 'cancelar_reserva' reserva.pk %}">Cancelar solicitacao</a>
                         {% endif %}
                     </td>
                 </tr>
