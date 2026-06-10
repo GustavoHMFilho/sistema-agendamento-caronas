@@ -1,62 +1,137 @@
 # Sistema de Agendamento de Caronas
 
-Projeto Django para a disciplina GAC116 - Programacao Web.
+Projeto desenvolvido com Django para a disciplina **GAC116 - Programacao Web**.
 
-## Tema
+## Sobre o Projeto
 
-O sistema permite cadastrar usuarios, veiculos, locais, caronas ofertadas, reservas de passageiros e avaliacoes das viagens.
+O sistema permite o gerenciamento de caronas entre usuarios, possibilitando:
+
+- Cadastro de usuarios e perfis.
+- Cadastro de veiculos.
+- Cadastro de locais de origem e destino.
+- Oferta de caronas.
+- Busca e listagem de caronas disponiveis.
+- Reserva e cancelamento de vagas por passageiros.
+- Avaliacao das viagens realizadas.
 
 ## Funcionalidades
 
 - Ambiente administrativo protegido por login e senha.
 - Admin personalizado com Jazzmin.
 - Ambiente do usuario protegido por login e senha.
-- Cadastro de usuarios, perfil, veiculos e locais.
-- Oferta de caronas por motoristas.
-- Busca e listagem de caronas disponiveis.
-- Reserva e cancelamento de vagas.
-- Avaliacao de caronas reservadas.
 - Interface responsiva com Bootstrap.
+- Modelagem com banco relacional SQLite.
+- Validacoes de negocio nos modelos.
+- Testes automatizados para fluxos principais.
 
 ## Checkpoint 1
 
-Entrega focada em modelagem completa e ambiente administrativo.
+Entrega focada na modelagem completa do sistema e na configuracao do ambiente administrativo do Django.
 
-Recursos configurados no admin:
+Recursos configurados no Django Admin:
 
-- Jazzmin para substituir o template padrao do Django Admin.
-- `list_display` para exibir os principais campos das entidades.
-- `list_filter` para filtrar caronas, reservas, usuarios, locais e avaliacoes.
-- `search_fields` para localizar registros por usuario, rota, placa e local.
-- `inlines` para cadastrar veiculos dentro do perfil, reservas dentro da carona e avaliacao dentro da reserva.
-- Validacoes com `clean` nos modelos, como impedimento de carona no passado, origem igual ao destino, motorista reservando a propria carona e reserva acima do limite de vagas.
+- Integracao com Jazzmin para personalizacao visual do Django Admin.
+- `list_display` para exibicao dos principais campos das entidades.
+- `list_filter` para filtros rapidos de registros.
+- `search_fields` para busca de usuarios, rotas, placas e locais.
+- `inlines` para cadastro relacionado:
+  - veiculos dentro do perfil do usuario;
+  - reservas dentro da carona;
+  - avaliacoes dentro da reserva.
+- Validacoes com `clean()` nos modelos:
+  - impedimento de cadastro de caronas no passado;
+  - origem e destino diferentes;
+  - bloqueio do motorista reservar a propria carona;
+  - controle do limite maximo de vagas.
+
+## Checkpoint 2
+
+A entrega completa inclui a area do usuario com login, telas responsivas com Bootstrap e fluxo funcional para oferecer caronas, reservar vagas, consultar reservas, cadastrar veiculos, cadastrar locais e avaliar viagens.
 
 ## Modelagem
 
 Entidades principais:
 
 - `PerfilUsuario`: dados complementares do usuario autenticavel.
-- `Veiculo`: veiculos vinculados a motoristas.
+- `Veiculo`: veiculos vinculados aos motoristas.
 - `Local`: pontos de origem e destino.
 - `Carona`: oferta de viagem com motorista, veiculo, rota, horario, valor e vagas.
-- `Reserva`: solicitacao ou confirmacao de vaga por passageiro.
-- `Avaliacao`: nota e comentario vinculados a uma reserva.
+- `Reserva`: solicitacao ou confirmacao de vaga por passageiros.
+- `Avaliacao`: nota e comentario associados a reserva.
 
-O diagrama entidade-relacionamento esta em [MODELAGEM_ER.md](MODELAGEM_ER.md).
+O diagrama entidade-relacionamento esta disponivel em [MODELAGEM_ER.md](MODELAGEM_ER.md).
 
-## Checkpoint 2
+## Tecnologias Utilizadas
 
-A entrega completa inclui a area do usuario com login, telas responsivas com Bootstrap e fluxo funcional para oferecer caronas, reservar vagas, consultar reservas, cadastrar veiculos e avaliar viagens.
+- Python.
+- Django.
+- SQLite.
+- Jazzmin.
+- Bootstrap.
 
-## Como executar
+## Como Executar o Projeto
+
+### 1. Clonar o repositorio
+
+```bash
+git clone https://github.com/GustavoHMFilho/sistema-agendamento-caronas
+```
+
+### 2. Entrar na pasta do projeto
+
+```bash
+cd sistema-agendamento-caronas
+```
+
+### 3. Criar o ambiente virtual
+
+Windows:
 
 ```bash
 python -m venv .venv
+```
+
+Linux/macOS:
+
+```bash
+python3 -m venv .venv
+```
+
+### 4. Ativar o ambiente virtual
+
+Windows:
+
+```bash
 .venv\Scripts\activate
+```
+
+Linux/macOS:
+
+```bash
+source .venv/bin/activate
+```
+
+### 5. Instalar as dependencias
+
+```bash
 pip install -r requirements.txt
+```
+
+### 6. Executar as migracoes
+
+```bash
 python manage.py migrate
-python manage.py createsuperuser
+```
+
+### 7. Criar dados de demonstracao
+
+```bash
 python manage.py criar_dados_demo
+```
+
+### 8. Iniciar o servidor
+
+```bash
 python manage.py runserver
 ```
 
@@ -65,7 +140,7 @@ Depois acesse:
 - Area do usuario: `http://127.0.0.1:8000/`
 - Admin: `http://127.0.0.1:8000/admin/`
 
-Usuarios de demonstracao criados pelo comando `criar_dados_demo`:
+## Usuarios de Demonstracao
 
 | Perfil | Usuario | Senha |
 | --- | --- | --- |
@@ -73,7 +148,7 @@ Usuarios de demonstracao criados pelo comando `criar_dados_demo`:
 | Motorista | `motorista` | `teste123` |
 | Passageiro | `passageiro` | `teste123` |
 
-## Como testar
+## Como Testar
 
 1. Entre como `passageiro`.
 2. Acesse a pagina de caronas disponiveis.
@@ -82,3 +157,9 @@ Usuarios de demonstracao criados pelo comando `criar_dados_demo`:
 5. Entre como `motorista`.
 6. Cadastre um veiculo, um local ou ofereca uma nova carona.
 7. Entre no `/admin/` como `admin` para visualizar a modelagem, filtros, buscas, listas e inlines.
+
+## Testes Automatizados
+
+```bash
+python manage.py test
+```
