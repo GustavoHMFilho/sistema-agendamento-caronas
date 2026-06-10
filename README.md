@@ -20,7 +20,7 @@ O sistema permite o gerenciamento de caronas entre usuarios, possibilitando:
 - Admin personalizado com Jazzmin.
 - Ambiente do usuario protegido por login e senha.
 - Interface responsiva com Bootstrap.
-- Modelagem com banco relacional SQLite.
+- Modelagem com banco relacional SQLite ou Postgres.
 - Validacoes de negocio nos modelos.
 - Testes automatizados para fluxos principais.
 
@@ -66,8 +66,22 @@ O diagrama entidade-relacionamento esta disponivel em [MODELAGEM_ER.md](MODELAGE
 - Python.
 - Django.
 - SQLite.
+- Postgres.
 - Jazzmin.
 - Bootstrap.
+- Docker.
+- Gunicorn.
+- WhiteNoise.
+
+## Pontos Extras
+
+O projeto foi preparado para cumprir os seguintes pontos extras:
+
+- Conteinerizacao com Docker: `Dockerfile` e `docker-compose.yml`.
+- Integracao com Postgres: servico `db` no Docker Compose usando a imagem oficial do Postgres.
+- Preparacao para producao: `gunicorn`, `whitenoise`, variaveis de ambiente e arquivo `render.yaml`.
+
+Para o ponto extra de producao contar, a aplicacao ainda precisa ser publicada em um servico externo, como Render, Railway, Fly.io ou outro servidor escolhido pelo grupo.
 
 ## Como Executar o Projeto
 
@@ -162,4 +176,69 @@ Depois acesse:
 
 ```bash
 python manage.py test
+```
+
+## Executar com Docker e Postgres
+
+### 1. Criar o arquivo de ambiente
+
+Windows:
+
+```bash
+copy .env.example .env
+```
+
+Linux/macOS:
+
+```bash
+cp .env.example .env
+```
+
+### 2. Subir os containers
+
+```bash
+docker compose up --build
+```
+
+O container da aplicacao executa automaticamente:
+
+- `python manage.py migrate --noinput`
+- `python manage.py collectstatic --noinput`
+- `python manage.py criar_dados_demo`
+
+Depois acesse:
+
+- Area do usuario: `http://127.0.0.1:8000/`
+- Admin: `http://127.0.0.1:8000/admin/`
+
+### 3. Parar os containers
+
+```bash
+docker compose down
+```
+
+### 4. Apagar tambem o banco Postgres local
+
+Use apenas se quiser reiniciar os dados do zero:
+
+```bash
+docker compose down -v
+```
+
+## Deploy em Producao
+
+O arquivo `render.yaml` deixa o projeto preparado para publicacao no Render com Postgres gerenciado.
+
+Passos gerais:
+
+1. Entrar no Render.
+2. Criar um novo Blueprint apontando para este repositorio.
+3. Conferir as variaveis de ambiente geradas pelo `render.yaml`.
+4. Definir `DJANGO_ALLOWED_HOSTS` com o dominio gerado pelo Render.
+5. Fazer o deploy.
+
+Em producao, mantenha:
+
+```text
+DJANGO_DEBUG=False
 ```
