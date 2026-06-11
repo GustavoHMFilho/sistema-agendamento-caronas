@@ -86,6 +86,7 @@ WSGI_APPLICATION = 'caronas.wsgi.application'
 DATABASE_URL = os.environ.get('DATABASE_URL')
 
 if DATABASE_URL:
+    DATABASE_URL = DATABASE_URL.replace('@[', '@').replace(']:', ':')
     database_url = urlparse(DATABASE_URL)
     query = parse_qs(database_url.query)
 
