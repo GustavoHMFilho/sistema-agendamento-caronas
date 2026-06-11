@@ -81,7 +81,7 @@ O projeto cumpre os seguintes pontos extras:
 - Integracao com Postgres: servico `db` no Docker Compose usando a imagem oficial do Postgres, validado localmente.
 - Aplicacao em producao: publicada no Render em `https://sistema-agendamento-caronas.onrender.com`.
 
-O deploy em producao usa `gunicorn`, `whitenoise`, variaveis de ambiente e `render.yaml` com plano gratuito.
+O deploy em producao usa `gunicorn`, `whitenoise`, variaveis de ambiente e `render.yaml` com plano gratuito. Para usar Postgres em producao sem pagar pelo banco do Render, siga [SUPABASE_RENDER.md](SUPABASE_RENDER.md).
 
 Mais detalhes e evidencias de validacao estao em [PONTOS_EXTRAS.md](PONTOS_EXTRAS.md).
 

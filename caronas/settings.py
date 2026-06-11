@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 import os
 from pathlib import Path
+from urllib.parse import parse_qs, unquote, urlparse
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -82,7 +83,26 @@ WSGI_APPLICATION = 'caronas.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-if os.environ.get('POSTGRES_DB'):
+DATABASE_URL = os.environ.get('DATABASE_URL')
+
+if DATABASE_URL:
+    database_url = urlparse(DATABASE_URL)
+    query = parse_qs(database_url.query)
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': database_url.path.lstrip('/'),
+            'USER': unquote(database_url.username or ''),
+            'PASSWORD': unquote(database_url.password or ''),
+            'HOST': database_url.hostname,
+            'PORT': database_url.port or '5432',
+            'OPTIONS': {
+                'sslmode': query.get('sslmode', ['require'])[0],
+            },
+        }
+    }
+elif os.environ.get('POSTGRES_DB'):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',

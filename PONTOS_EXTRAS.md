@@ -38,11 +38,14 @@ O workflow `.github/workflows/django-postgres.yml` tambem executa os testes com 
 Arquivos relacionados:
 
 - `render.yaml`
+- `SUPABASE_RENDER.md`
 - `PYTHONANYWHERE_DEPLOY.md`
 - `requirements.txt` com `gunicorn` e `whitenoise`
 - `caronas/settings.py` com suporte a variaveis de ambiente
 
-O projeto foi publicado no Render usando Blueprint com `plan: free` e SQLite. O Postgres do ponto extra foi comprovado no ambiente Docker local.
+O projeto foi publicado no Render usando Blueprint com `plan: free`. O projeto tambem suporta `DATABASE_URL` para conectar o Render a um Postgres externo, como Supabase.
+
+O Postgres do ponto extra foi comprovado no ambiente Docker local. Para usar Postgres tambem em producao, configure Supabase conforme [SUPABASE_RENDER.md](SUPABASE_RENDER.md).
 
 URL publica:
 
