@@ -52,3 +52,31 @@ Para concluir o ponto extra de producao, publique o repositorio em um servico co
 - Mostrar o Postgres no `docker-compose.yml`.
 - Abrir o GitHub Actions e mostrar o workflow `Django Postgres CI` passando.
 - Se publicado, abrir a URL publica da aplicacao.
+
+## Validacao Local Realizada
+
+Validacao feita em ambiente local com Docker Desktop:
+
+```text
+docker compose up --build -d
+```
+
+Resultado observado:
+
+- Container `trabalhodjango-db-1` com Postgres ativo na porta `5432`.
+- Container `trabalhodjango-web-1` ativo na porta `8000`.
+- Migrations executadas automaticamente no banco Postgres.
+- Arquivos estaticos coletados automaticamente.
+- Dados de demonstracao criados automaticamente.
+- Login em `http://127.0.0.1:8000/contas/login/` respondeu HTTP `200`.
+
+Validacoes executadas dentro do container:
+
+```text
+docker compose exec -T web python manage.py check
+System check identified no issues (0 silenced).
+
+docker compose exec -T web python manage.py test
+Ran 5 tests in 4.364s
+OK
+```
