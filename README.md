@@ -79,7 +79,7 @@ O projeto foi preparado para cumprir os seguintes pontos extras:
 
 - Conteinerizacao com Docker: `Dockerfile` e `docker-compose.yml`.
 - Integracao com Postgres: servico `db` no Docker Compose usando a imagem oficial do Postgres.
-- Preparacao para producao: `gunicorn`, `whitenoise`, variaveis de ambiente e arquivo `render.yaml`.
+- Preparacao para producao: `gunicorn`, `whitenoise`, variaveis de ambiente e arquivo `render.yaml` com plano gratuito.
 
 Para o ponto extra de producao contar, a aplicacao ainda precisa ser publicada em um servico externo, como Render, Railway, Fly.io ou outro servidor escolhido pelo grupo.
 

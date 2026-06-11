@@ -2,6 +2,7 @@ services:
   - type: web
     name: sistema-agendamento-caronas
     runtime: python
+    plan: free
     buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput
     preDeployCommand: python manage.py migrate --noinput && python manage.py criar_dados_demo
     startCommand: gunicorn caronas.wsgi:application
@@ -12,28 +13,3 @@ services:
         value: .onrender.com
       - key: DJANGO_SECRET_KEY
         generateValue: true
-      - key: POSTGRES_DB
-        fromDatabase:
-          name: caronas-postgres
-          property: database
-      - key: POSTGRES_USER
-        fromDatabase:
-          name: caronas-postgres
-          property: user
-      - key: POSTGRES_PASSWORD
-        fromDatabase:
-          name: caronas-postgres
-          property: password
-      - key: POSTGRES_HOST
-        fromDatabase:
-          name: caronas-postgres
-          property: host
-      - key: POSTGRES_PORT
-        fromDatabase:
-          name: caronas-postgres
-          property: port
-
-databases:
-  - name: caronas-postgres
-    databaseName: caronas_db
-    user: caronas_user

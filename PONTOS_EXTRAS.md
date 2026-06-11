@@ -42,7 +42,9 @@ Arquivos relacionados:
 - `requirements.txt` com `gunicorn` e `whitenoise`
 - `caronas/settings.py` com suporte a variaveis de ambiente
 
-O projeto esta preparado para deploy no Render usando Blueprint. Caso o Render solicite informacoes de pagamento, use o deploy gratuito no PythonAnywhere descrito em `PYTHONANYWHERE_DEPLOY.md`.
+O projeto esta preparado para deploy gratuito no Render usando Blueprint com `plan: free` e SQLite. O Postgres do ponto extra foi comprovado no ambiente Docker local.
+
+Caso o Render ainda solicite informacoes de pagamento, use o deploy gratuito no PythonAnywhere descrito em `PYTHONANYWHERE_DEPLOY.md`.
 
 Para concluir o ponto extra de producao, publique o repositorio em um servico como Render, Railway, Fly.io ou VPS e entregue a URL publica gerada.
 
