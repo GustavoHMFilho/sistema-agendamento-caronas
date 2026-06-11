@@ -83,3 +83,20 @@ docker compose exec -T web python manage.py test
 Ran 5 tests in 4.364s
 OK
 ```
+
+## Validacao em Producao
+
+Aplicacao publicada no Render:
+
+```text
+https://sistema-agendamento-caronas.onrender.com
+```
+
+Validacao externa:
+
+```text
+HTTP 200
+https://sistema-agendamento-caronas.onrender.com/contas/login/?next=/
+```
+
+O deploy aparece como **live** no painel do Render.
