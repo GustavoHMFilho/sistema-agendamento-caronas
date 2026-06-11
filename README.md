@@ -83,6 +83,8 @@ O projeto foi preparado para cumprir os seguintes pontos extras:
 
 Para o ponto extra de producao contar, a aplicacao ainda precisa ser publicada em um servico externo, como Render, Railway, Fly.io ou outro servidor escolhido pelo grupo.
 
+Mais detalhes e evidencias sugeridas estao em [PONTOS_EXTRAS.md](PONTOS_EXTRAS.md).
+
 ## Como Executar o Projeto
 
 ### 1. Clonar o repositorio
