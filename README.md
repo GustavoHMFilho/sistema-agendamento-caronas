@@ -85,6 +85,8 @@ Para o ponto extra de producao contar, a aplicacao ainda precisa ser publicada e
 
 Mais detalhes e evidencias sugeridas estao em [PONTOS_EXTRAS.md](PONTOS_EXTRAS.md).
 
+Caso o Render solicite pagamento, use o guia gratuito do PythonAnywhere em [PYTHONANYWHERE_DEPLOY.md](PYTHONANYWHERE_DEPLOY.md).
+
 ## Como Executar o Projeto
 
 ### 1. Clonar o repositorio

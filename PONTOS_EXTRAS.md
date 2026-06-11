@@ -38,10 +38,11 @@ O workflow `.github/workflows/django-postgres.yml` tambem executa os testes com 
 Arquivos relacionados:
 
 - `render.yaml`
+- `PYTHONANYWHERE_DEPLOY.md`
 - `requirements.txt` com `gunicorn` e `whitenoise`
 - `caronas/settings.py` com suporte a variaveis de ambiente
 
-O projeto esta preparado para deploy no Render usando Blueprint.
+O projeto esta preparado para deploy no Render usando Blueprint. Caso o Render solicite informacoes de pagamento, use o deploy gratuito no PythonAnywhere descrito em `PYTHONANYWHERE_DEPLOY.md`.
 
 Para concluir o ponto extra de producao, publique o repositorio em um servico como Render, Railway, Fly.io ou VPS e entregue a URL publica gerada.
 
