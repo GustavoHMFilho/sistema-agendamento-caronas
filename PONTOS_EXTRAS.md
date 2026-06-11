@@ -43,9 +43,9 @@ Arquivos relacionados:
 - `requirements.txt` com `gunicorn` e `whitenoise`
 - `caronas/settings.py` com suporte a variaveis de ambiente
 
-O projeto foi publicado no Render usando Blueprint com `plan: free`. O projeto tambem suporta `DATABASE_URL` para conectar o Render a um Postgres externo, como Supabase.
+O projeto foi publicado no Render usando Blueprint com `plan: free`. Em producao, o Render usa a variavel `DATABASE_URL` para conectar a aplicacao ao Postgres hospedado no Supabase.
 
-O Postgres do ponto extra foi comprovado no ambiente Docker local. Para usar Postgres tambem em producao, configure Supabase conforme [SUPABASE_RENDER.md](SUPABASE_RENDER.md).
+O Postgres do ponto extra foi comprovado no ambiente Docker local e tambem em producao via Supabase.
 
 URL publica:
 
@@ -105,3 +105,34 @@ https://sistema-agendamento-caronas.onrender.com/contas/login/?next=/
 ```
 
 O deploy aparece como **live** no painel do Render.
+
+## Validacao Supabase/Postgres em Producao
+
+Depois de configurar `DATABASE_URL` no Render com a connection string do Supabase Session Pooler, as migrations do Django criaram as tabelas no Supabase.
+
+Tabelas observadas no Supabase:
+
+```text
+agendamentos_avaliacao
+agendamentos_carona
+agendamentos_local
+agendamentos_perfilusuario
+agendamentos_reserva
+agendamentos_veiculo
+auth_group
+auth_group_permissions
+auth_permission
+auth_user
+auth_user_groups
+auth_user_user_permissions
+django_admin_log
+django_content_type
+django_migrations
+django_session
+```
+
+Isso comprova o fluxo:
+
+```text
+Render -> Django -> DATABASE_URL -> Supabase Postgres
+```

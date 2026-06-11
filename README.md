@@ -78,10 +78,10 @@ O diagrama entidade-relacionamento esta disponivel em [MODELAGEM_ER.md](MODELAGE
 O projeto cumpre os seguintes pontos extras:
 
 - Conteinerizacao com Docker: `Dockerfile` e `docker-compose.yml`.
-- Integracao com Postgres: servico `db` no Docker Compose usando a imagem oficial do Postgres, validado localmente.
+- Integracao com Postgres: validada localmente via Docker Compose e em producao via Supabase.
 - Aplicacao em producao: publicada no Render em `https://sistema-agendamento-caronas.onrender.com`.
 
-O deploy em producao usa `gunicorn`, `whitenoise`, variaveis de ambiente e `render.yaml` com plano gratuito. Para usar Postgres em producao sem pagar pelo banco do Render, siga [SUPABASE_RENDER.md](SUPABASE_RENDER.md).
+O deploy em producao usa `gunicorn`, `whitenoise`, variaveis de ambiente e `render.yaml` com plano gratuito. O banco em producao usa Postgres hospedado no Supabase por meio da variavel `DATABASE_URL`.
 
 Mais detalhes e evidencias de validacao estao em [PONTOS_EXTRAS.md](PONTOS_EXTRAS.md).
 
@@ -236,6 +236,18 @@ https://sistema-agendamento-caronas.onrender.com
 ```
 
 O deploy foi feito por Blueprint usando o arquivo `render.yaml`.
+
+O banco de dados de producao esta no Supabase/Postgres. A conexao e feita pela variavel de ambiente `DATABASE_URL` configurada no Render.
+
+Tabelas criadas no Supabase apos o deploy:
+
+- `agendamentos_carona`
+- `agendamentos_reserva`
+- `agendamentos_veiculo`
+- `agendamentos_perfilusuario`
+- `auth_user`
+- `django_migrations`
+- `django_session`
 
 Em producao, mantenha:
 
