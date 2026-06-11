@@ -4,8 +4,7 @@ services:
     runtime: python
     plan: free
     buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput
-    preDeployCommand: python manage.py migrate --noinput && python manage.py criar_dados_demo
-    startCommand: gunicorn caronas.wsgi:application
+    startCommand: python manage.py migrate --noinput && python manage.py criar_dados_demo && gunicorn caronas.wsgi:application
     envVars:
       - key: DJANGO_DEBUG
         value: False
