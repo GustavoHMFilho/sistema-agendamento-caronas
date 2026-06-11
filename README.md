@@ -75,17 +75,15 @@ O diagrama entidade-relacionamento esta disponivel em [MODELAGEM_ER.md](MODELAGE
 
 ## Pontos Extras
 
-O projeto foi preparado para cumprir os seguintes pontos extras:
+O projeto cumpre os seguintes pontos extras:
 
 - Conteinerizacao com Docker: `Dockerfile` e `docker-compose.yml`.
-- Integracao com Postgres: servico `db` no Docker Compose usando a imagem oficial do Postgres.
-- Preparacao para producao: `gunicorn`, `whitenoise`, variaveis de ambiente e arquivo `render.yaml` com plano gratuito.
+- Integracao com Postgres: servico `db` no Docker Compose usando a imagem oficial do Postgres, validado localmente.
+- Aplicacao em producao: publicada no Render em `https://sistema-agendamento-caronas.onrender.com`.
 
-Para o ponto extra de producao contar, a aplicacao ainda precisa ser publicada em um servico externo, como Render, Railway, Fly.io ou outro servidor escolhido pelo grupo.
+O deploy em producao usa `gunicorn`, `whitenoise`, variaveis de ambiente e `render.yaml` com plano gratuito.
 
-Mais detalhes e evidencias sugeridas estao em [PONTOS_EXTRAS.md](PONTOS_EXTRAS.md).
-
-Caso o Render solicite pagamento, use o guia gratuito do PythonAnywhere em [PYTHONANYWHERE_DEPLOY.md](PYTHONANYWHERE_DEPLOY.md).
+Mais detalhes e evidencias de validacao estao em [PONTOS_EXTRAS.md](PONTOS_EXTRAS.md).
 
 ## Como Executar o Projeto
 
@@ -231,15 +229,13 @@ docker compose down -v
 
 ## Deploy em Producao
 
-O arquivo `render.yaml` deixa o projeto preparado para publicacao no Render com Postgres gerenciado.
+A aplicacao esta publicada no Render:
 
-Passos gerais:
+```text
+https://sistema-agendamento-caronas.onrender.com
+```
 
-1. Entrar no Render.
-2. Criar um novo Blueprint apontando para este repositorio.
-3. Conferir as variaveis de ambiente geradas pelo `render.yaml`.
-4. Definir `DJANGO_ALLOWED_HOSTS` com o dominio gerado pelo Render.
-5. Fazer o deploy.
+O deploy foi feito por Blueprint usando o arquivo `render.yaml`.
 
 Em producao, mantenha:
 
